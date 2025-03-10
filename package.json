@@ -1,0 +1,27 @@
+{
+  "dependencies": {
+    "next": "^15.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "name": "tennis-app",
+  "version": "1.0.0",
+  "description": "MPP for now",
+  "main": "index.js",
+  "devDependencies": {
+    "@types/node": "22.13.10",
+    "@types/react": "19.0.10",
+    "eslint": "9.22.0",
+    "eslint-config-next": "15.2.1",
+    "typescript": "5.8.2"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
