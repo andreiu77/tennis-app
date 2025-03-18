@@ -8,7 +8,6 @@ Tennis player attributes:
     ranking
     number of titles
     left-handed/right-handed
-    career high ranking
 
 Ideas:
     search by name

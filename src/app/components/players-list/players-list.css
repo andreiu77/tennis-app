@@ -1,0 +1,51 @@
+.players-list {
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr;
+	grid-row-gap: 20px;
+    grid-column-gap: 10px;
+	margin-inline: auto;
+	overflow: hidden;
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+
+}
+
+.pagination {
+    display: flex;
+    list-style: none;
+    gap: 10px;
+    
+}
+
+.pagination li {
+    cursor: pointer;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background: #f8f8f8;
+    transition: 0.3s;
+}
+
+.pagination li:hover {
+    background: #ddd;
+}
+
+.pagination .active {
+    background: #007bff;
+    color: white;
+    border-color: #007bff;
+}
+
+.pagination .prev, 
+.pagination .next {
+    font-weight: bold;
+}
+
+.pagination .disabled {
+    opacity: 0.5;
+    pointer-events: none;
+}

@@ -1,0 +1,31 @@
+.main-menu {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    width: 8vw;
+    height: 75vh;
+    background-color: #8badc9;
+    padding: 10px;
+    border-radius: 10px;
+    max-height: 100%;
+    overflow-y: auto;
+}
+
+.menu-list {
+    margin: 0;
+    padding: 0;
+}
+
+.main-menu .menu-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    list-style-type: none;
+}
+
+.main-menu i {
+    font-size: 60px;
+    color: black;
+    margin: 20px;
+    cursor: pointer;
+}

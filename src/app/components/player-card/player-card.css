@@ -1,0 +1,80 @@
+.player-card {
+	width: 20vw;
+	background-color: #ecf1f1;
+	padding: .88rem;
+	border-radius: 10px;
+	cursor: pointer;
+	min-height: max-content;
+}
+
+.player-card__header {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	align-items: center;
+	flex-wrap: wrap;
+    column-gap: 20%;
+}
+
+
+.player-card__image {
+	width: 60px;
+}
+
+.player-card__image img {
+	width: 100%;
+	border: 3px solid #000000;
+	aspect-ratio: 1 / 1;
+	object-fit: cover;
+	object-position: center;
+	border-radius: 100%;
+}
+
+.player-card__name {
+    font-size: 25px;
+    white-space: nowrap;       /* Prevents text from wrapping */
+    overflow: hidden;          /* Hides overflowing text */
+    text-overflow: ellipsis;   /* Adds "..." when text is too long */
+    max-width: 100%;           /* Ensures it doesn't exceed its container */
+    display: block; 
+}
+
+.player-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+    align-items: left;
+}
+
+.player-card__body i {
+    font-size: 30px;
+    margin-left: 5px;
+}
+
+.player-card__body p {
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.player-card__footer {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    column-gap: 10px;
+}
+
+.player-card__footer button {
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: black;
+    border: 2px solid black;
+}
+
+.player-card__footer i{
+    font-size: 25px;
+}
