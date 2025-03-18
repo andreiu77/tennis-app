@@ -63,7 +63,6 @@
     font-weight: bold;
   }
   
-  /* Input Fields */
   input {
     width: 100%;
     padding: 8px;
@@ -74,7 +73,6 @@
     outline: none;
   }
   
-  /* Input with Icons */
   .input-icon {
     display: flex;
     align-items: center;
@@ -92,7 +90,6 @@
     padding-left: 2.5rem;
   }
   
-  /* Buttons */
   .modal-buttons {
     display: flex;
     justify-content: flex-end;
@@ -109,13 +106,11 @@
     font-size: 14px;
   }
   
-  /* Cancel Button */
   .cancel {
     background: #ccc;
     color: black;
   }
   
-  /* Submit Button */
   .submit {
     background: #00cc00;
     color: white;

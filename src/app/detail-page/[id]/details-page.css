@@ -87,6 +87,10 @@ html, body {
     width: 50%;
 }
 
+.input-group input:not([readonly]) {
+    color: #000;
+}
+
 .input-group input:focus {
     border-color: #6366f1;
     background-color: #fff;

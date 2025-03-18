@@ -9,8 +9,8 @@ interface AddPlayerFormProps {
     country: string;
     racket_brand: string;
     date_of_birth: string;  
-    ranking: string;
-    number_of_titles: string;
+    ranking: Number;
+    number_of_titles: Number;
     handedness: string;
     imageUrl: string;
   }) => void;
@@ -23,8 +23,8 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
     country: "",
     racket_brand: "",
     date_of_birth: "",
-    ranking: "",
-    number_of_titles: "",
+    ranking: 0,
+    number_of_titles: 0,
     handedness: "right-handed",
     imageUrl: null,
   });
@@ -81,7 +81,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
           <label>Birth date:</label>
           <div className="input-icon">
             <i className="bi bi-calendar"></i>
-            <input type="text" placeholder="YYYY/MM/DD" value={newPlayer.date_of_birth} onChange={(e) => setNewPlayer({ ...newPlayer, date_of_birth: e.target.value })} />
+            <input type="date" value={newPlayer.date_of_birth} onChange={(e) => setNewPlayer({ ...newPlayer, date_of_birth: e.target.value })} />
           </div>
         </div>
 
@@ -89,14 +89,14 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
           <label>Ranking:</label>
           <div className="input-icon">
             <i className="bi bi-hash"></i>
-            <input type="text" placeholder="Current rank..." value={newPlayer.ranking} onChange={(e) => setNewPlayer({ ...newPlayer, ranking: e.target.value })} />
+            <input type="number" placeholder="Current rank..." value={newPlayer.ranking} onChange={(e) => setNewPlayer({ ...newPlayer, ranking: Number(e.target.value) })} />
           </div>
         </div>
         <div className="form-group">
           <label>Titles:</label>
           <div className="input-icon">
             <i className="bi bi-trophy-fill"></i>
-            <input type="text" placeholder="# of titles..." value={newPlayer.number_of_titles} onChange={(e) => setNewPlayer({ ...newPlayer, number_of_titles: e.target.value })} />
+            <input type="number" placeholder="# of titles..." value={newPlayer.number_of_titles} onChange={(e) => setNewPlayer({ ...newPlayer, number_of_titles: Number(e.target.value) })} />
           </div>
         </div>
         <div className="modal-buttons">

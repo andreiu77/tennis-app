@@ -16,7 +16,7 @@ interface PlayersListProps {
     onCloseForm: () => void;
   }
 
-const PlayersList: React.FC<PlayersListProps> = ({ searchQuery, showForm, onCloseForm }) => {
+    const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', showForm, onCloseForm }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [playersData, setPlayers] = useState(players);
 

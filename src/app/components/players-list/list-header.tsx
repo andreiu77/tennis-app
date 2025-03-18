@@ -11,6 +11,7 @@ const Header: React.FC<HeaderProps>  = ({ setSearchQuery }) => {
             <i className="bi bi-search" style={{ marginRight: '8px', fontSize: '20px' }}></i>
           <input type="text" placeholder="Search by name..." 
           onChange={(e) => setSearchQuery(e.target.value.toLowerCase())} />
+
         </div>
      );
 };
