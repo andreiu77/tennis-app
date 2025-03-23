@@ -9,10 +9,11 @@ import { useRouter } from 'next/navigation';
 interface PlayerCardProps {
     player: Player;
     onDelete: (id: number) => void;
+    cardLabel: string;
 }
 
 
-const PlayerCard: React.FC<PlayerCardProps> = ({ player, onDelete }) => {
+const PlayerCard: React.FC<PlayerCardProps> = ({ player, onDelete, cardLabel }) => {
     const router = useRouter();
 
     const handleDetailsClick = () => {
@@ -26,6 +27,9 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, onDelete }) => {
                     <img src={player.imageUrl} alt={player.name} />
                 </div>
                 <h2 className='player-card__name'>{player.name}</h2>
+            </div>
+            <div className='player-card__label-container'>
+                <div className='player-card__label' style={{ backgroundColor: cardLabel }}></div>
             </div>
             <div className='player-card__body'>
                 <p><i className="bi bi-hash"></i>{player.ranking}</p>

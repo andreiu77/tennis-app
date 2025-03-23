@@ -14,9 +14,10 @@ interface PlayersListProps {
     searchQuery: string;
     showForm: boolean;
     onCloseForm: () => void;
+    sortOrder: string;
   }
 
-    const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', showForm, onCloseForm }) => {
+    const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, showForm, onCloseForm }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [playersData, setPlayers] = useState(players);
 
@@ -24,10 +25,24 @@ interface PlayersListProps {
         player.name.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const offset = currentPage * playersPerPage;
-    const currentPlayers = filteredPlayers.slice(offset, offset + playersPerPage);    
-    const pageCount = Math.ceil(filteredPlayers.length / playersPerPage);
+    if (sortOrder === 'ranking-asc') {
+        filteredPlayers.sort((a, b) => a.ranking - b.ranking);
+    } else {
+        filteredPlayers.sort((a, b) => b.ranking - a.ranking);
+    }
 
+    const chunkSize = Math.ceil(filteredPlayers.length / 3);
+    const sectionColors = ["#d4af37", "#c0c0c0", "#cd7f32"];  // Gold, Silver, Bronze
+    const filteredPlayersWithColor = filteredPlayers.map((player, index) => {
+        const sectionIndex = Math.floor(index / chunkSize);
+        const color = sectionColors[sectionIndex];
+        return { ...player, color };  // Add the color field to each player
+    });
+
+
+    const offset = currentPage * playersPerPage;
+    const currentPlayers = filteredPlayersWithColor.slice(offset, offset + playersPerPage);    
+    const pageCount = Math.ceil(filteredPlayersWithColor.length / playersPerPage);
 
 
     const handlePageClick = (data) => {
@@ -48,9 +63,9 @@ interface PlayersListProps {
     return (
         <div className='players-list-container'>
             <div className='players-list'>
-                {currentPlayers.map(player => (
-                    <PlayerCard key={player.id} player={player} onDelete={handleDelete} />
-                ))}
+                {currentPlayers.map((player, index) => {
+                    return (<PlayerCard key={player.id} player={player} onDelete={handleDelete} cardLabel={player.color} />)
+                })}
             </div>
             <div className='pagination-container'>
                 <ReactPaginate

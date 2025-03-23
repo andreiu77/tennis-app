@@ -13,7 +13,8 @@ import Header from './components/players-list/list-header';
 
 export default function MainPage() {
     const [showForm, setShowForm] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");     
+    const [searchQuery, setSearchQuery] = useState("");    
+    const [sortOrder, setSortOrder] = useState("ranking-asc"); 
 
 
     return (
@@ -23,11 +24,11 @@ export default function MainPage() {
             </div>
             <div className='content'>
                 <div className='header'>
-                    <Header setSearchQuery={setSearchQuery}/>
+                    <Header setSearchQuery={setSearchQuery} setSortOrder={setSortOrder}/>
                 </div>
 
                 <div>
-                    <PlayersList searchQuery={searchQuery} showForm={showForm} onCloseForm={() => setShowForm(false)}/>
+                    <PlayersList searchQuery={searchQuery} sortOrder={sortOrder} showForm={showForm} onCloseForm={() => setShowForm(false)}/>
                 </div>
 
             </div>

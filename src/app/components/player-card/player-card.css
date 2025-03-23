@@ -12,7 +12,7 @@
 	flex-direction: row;
 	justify-content: flex-start;
 	align-items: center;
-	flex-wrap: wrap;
+    flex-wrap: wrap;
     column-gap: 20%;
 }
 
@@ -37,6 +37,21 @@
     text-overflow: ellipsis;   /* Adds "..." when text is too long */
     max-width: 100%;           /* Ensures it doesn't exceed its container */
     display: block; 
+}
+
+.player-card__label-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.player-card__label {
+    width: 30px;
+    height: 15px;
+    border-radius: 12px;
+    display: inline-block;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin: 5px 0;
 }
 
 .player-card__body {
