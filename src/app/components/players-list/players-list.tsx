@@ -56,7 +56,7 @@ interface PlayersListProps {
     };
 
     const handleAddPlayer = (newPlayer: any) => {
-        setPlayers([...players, newPlayer]);
+        setPlayers([...playersData, newPlayer]);
         console.log(newPlayer);
     };
     

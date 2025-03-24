@@ -7,12 +7,14 @@ import Link from 'next/link';
 import MainMenu from './components/main-menu/main-menu';
 import PlayersList from './components/players-list/players-list';
 import Header from './components/players-list/list-header';
+import players from './domain/hardcoded_entities';
 
 
 export default function MainPage() {
     const [showForm, setShowForm] = useState(false);
     const [searchQuery, setSearchQuery] = useState("");    
     const [sortOrder, setSortOrder] = useState("ranking-asc"); 
+
 
 
     return (
