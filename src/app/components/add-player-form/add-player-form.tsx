@@ -3,7 +3,7 @@ import "./add-player-form.css";
 
 interface AddPlayerFormProps {
   onClose: () => void;
-    onAddPlayer: (player: {
+  onAddPlayer: (player: {
     id: number;
     name: string;
     country: string;

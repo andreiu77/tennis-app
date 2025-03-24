@@ -5,8 +5,6 @@ import './main-page.css';
 import Link from 'next/link';
 
 import MainMenu from './components/main-menu/main-menu';
-import PlayerCard from './components/player-card/player-card';
-import players from './domain/hardcoded_entities';
 import PlayersList from './components/players-list/players-list';
 import Header from './components/players-list/list-header';
 
