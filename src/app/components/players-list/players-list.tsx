@@ -17,7 +17,7 @@ interface PlayersListProps {
     sortOrder: string;
   }
 
-    const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, showForm, onCloseForm }) => {
+const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, showForm, onCloseForm }) => {
     const [currentPage, setCurrentPage] = useState(0);
     const [playersData, setPlayers] = useState(players);
 

@@ -36,6 +36,15 @@ const PlayerPieChart: React.FC<PlayerPieChartProps> = ({ players }) => {
 
   return (
     <PieChart width={400} height={400}>
+      <text
+        x="50%"
+        y="20"
+        textAnchor="middle"
+        dominantBaseline="middle"
+        style={{ fontSize: "16px", fontWeight: "bold" }}
+      >
+        Player Count By Nationality
+      </text>
       <Pie data={data} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100} fill="#8884d8">
         {data.map((entry, index) => (
           <Cell key={`cell-${index}`} fill={entry.color} />

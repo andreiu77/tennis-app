@@ -2,14 +2,42 @@ import '@testing-library/jest-dom';
 import { render, screen, fireEvent } from '@testing-library/react';
 import MainPage from '../src/app/page';
 import AddPlayerForm from '../src/app/components/add-player-form/add-player-form'; 
-import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import PlayerCard from '../src/app/components/player-card/player-card';
 import PlayersList from '../src/app/components/players-list/players-list';
 
 jest.mock('next/navigation', () => ({
-  useRouter: () => ({
-    push: jest.fn(),
-  }),
+  useRouter: jest.fn(),
 }));
+
+describe('PlayerCard Navigation Functionality', () => {
+  test('Navigates to player details when button is clicked', () => {
+    const mockPush = jest.fn();
+    
+    // Ensure useRouter is mocked properly
+    useRouter.mockReturnValue({ push: mockPush });
+
+    const player = {
+      id: 1,
+      name: "Roger Federer",
+      country: "Switzerland",
+      ranking: 1,
+      number_of_titles: 103,
+      imageUrl: "https://example.com/federer.jpg",
+    };
+
+    render(<PlayerCard player={player} onDelete={jest.fn()} cardLabel="blue" />);
+
+    // Find the details button (assuming it's inside a button element)
+    const detailsButton = screen.getAllByRole('button')[0];
+
+    // Simulate click event
+    fireEvent.click(detailsButton);
+
+    // Expect navigation to player details page
+    expect(mockPush).toHaveBeenCalledWith(`/detail-page/${player.id}`);
+  });
+});
 
 describe('PlayersList Search Functionality', () => {
   test('Filters players based on search input', () => {
@@ -103,14 +131,34 @@ describe('AddPlayerForm Functionality', () => {
     // Ensure onClose was called
     expect(onCloseMock).toHaveBeenCalled();
   });
+
+  test('Adds a new player to the list', () => {
+    render(<PlayersList searchQuery="" sortOrder="ranking-desc" showForm={true} onCloseForm={jest.fn()} />);
+
+    // Fill out the form
+    fireEvent.change(screen.getByPlaceholderText("Enter name..."), { target: { value: "Mock" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter country..."), { target: { value: "Serbia" } });
+    fireEvent.change(screen.getByPlaceholderText("Enter racket brand..."), { target: { value: "Head" } });
+    fireEvent.change(screen.getByPlaceholderText("Current rank..."), { target: { value: "66" } });
+    fireEvent.change(screen.getByPlaceholderText("# of titles..."), { target: { value: "95" } });
+
+    // Click submit button
+    fireEvent.click(screen.getByText("Submit"));
+
+    // Check if player is added to the list
+    expect(screen.getByText("Mock")).toBeInTheDocument();
+    expect(screen.getByText("Serbia")).toBeInTheDocument();
+    expect(screen.getByText("66")).toBeInTheDocument();
+    expect(screen.getByText("95")).toBeInTheDocument();
+  });
 });
 
 describe('PlayersList Delete Functionality', () => {
   test('Removes a player when delete button is clicked', async () => {
-      render(<PlayersList searchQuery="" showForm={false} onCloseForm={jest.fn()} />);
+      render(<MainPage />);
 
       // Ensure players are initially displayed
-      expect(await screen.findByText("Roger Federer")).toBeInTheDocument();
+      expect(screen.getByText("Roger Federer")).toBeInTheDocument();
       expect(screen.getByText("Rafael Nadal")).toBeInTheDocument();
 
       // Find delete buttons

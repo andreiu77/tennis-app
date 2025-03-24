@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>37/37</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>36/36</span>
+                <span class='fraction'>37/37</span>
             </div>
         
             
@@ -98,7 +98,8 @@
 <a name='L33'></a><a href='#L33'>33</a>
 <a name='L34'></a><a href='#L34'>34</a>
 <a name='L35'></a><a href='#L35'>35</a>
-<a name='L36'></a><a href='#L36'>36</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L36'></a><a href='#L36'>36</a>
+<a name='L37'></a><a href='#L37'>37</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -111,44 +112,46 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">1x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span>
-<span class="cline-any cline-yes">2x</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">3x</span></td><td class="text"><pre class="prettyprint lang-js">'use client';
 &nbsp;
 import React, { useState } from 'react';
 import './main-page.css';
 import Link from 'next/link';
 &nbsp;
 import MainMenu from './components/main-menu/main-menu';
-import PlayerCard from './components/player-card/player-card';
-import players from './domain/hardcoded_entities';
 import PlayersList from './components/players-list/players-list';
 import Header from './components/players-list/list-header';
+import players from './domain/hardcoded_entities';
 &nbsp;
 &nbsp;
 export default function MainPage() {
     const [showForm, setShowForm] = useState(false);
-    const [searchQuery, setSearchQuery] = useState("");     
+    const [searchQuery, setSearchQuery] = useState("");    
+    const [sortOrder, setSortOrder] = useState("ranking-asc"); 
+&nbsp;
 &nbsp;
 &nbsp;
     return (
@@ -158,11 +161,11 @@ export default function MainPage() {
             &lt;/div&gt;
             &lt;div className='content'&gt;
                 &lt;div className='header'&gt;
-                    &lt;Header setSearchQuery={setSearchQuery}/&gt;
+                    &lt;Header setSearchQuery={setSearchQuery} setSortOrder={setSortOrder}/&gt;
                 &lt;/div&gt;
 &nbsp;
                 &lt;div&gt;
-                    &lt;PlayersList searchQuery={searchQuery} showForm={showForm} onCloseForm={<span class="fstat-no" title="function not covered" >() =&gt; setShowForm(false)}/&gt;</span>
+                    &lt;PlayersList searchQuery={searchQuery} sortOrder={sortOrder} showForm={showForm} onCloseForm={<span class="fstat-no" title="function not covered" >() =&gt; setShowForm(false)}/&gt;</span>
                 &lt;/div&gt;
 &nbsp;
             &lt;/div&gt;
@@ -175,7 +178,7 @@ export default function MainPage() {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-23T08:45:21.706Z
+                at 2025-03-24T18:46:31.364Z
             </div>
         <script src="../prettify.js"></script>
         <script>

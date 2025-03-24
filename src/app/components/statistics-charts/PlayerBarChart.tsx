@@ -21,6 +21,15 @@ const PlayerLineChart: React.FC<PlayerRankingLineChartProps> = ({ players }) => 
   return (
     <ResponsiveContainer width="100%" height={400}>
       <LineChart data={data}>
+        <text
+          x="50%"
+          y="20"
+          textAnchor="middle"
+          dominantBaseline="middle"
+          style={{ fontSize: "16px", fontWeight: "bold" }}
+        >
+          Ranking Breakdown
+        </text>
         <CartesianGrid strokeDasharray="3 3" />
         
         {/* Hide XAxis labels */}
