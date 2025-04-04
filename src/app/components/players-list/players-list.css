@@ -7,6 +7,12 @@
 	overflow: hidden;
 }
 
+.players-list-controls {
+    display: flex;
+    column-gap: 10px;
+    margin: 10px;
+}
+
 .pagination-container {
     display: flex;
     justify-content: center;

@@ -1,32 +1,47 @@
 "use client";
 
 import PlayerPieChart from "../components/statistics-charts/PlayerPieChart";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import players from "../domain/hardcoded_entities";
 import getRandomPlayer from "../domain/random-players";
 import PlayerLineChart from "../components/statistics-charts/PlayerBarChart";
 
 import "./statistics-page.css";
-import { get } from "http";
-
 
 export default function StatisticsPage() {
     const [playersData, setPlayersData] = useState(players);
+    const isAddingRef = useRef(false);
 
-    const handleAddRandomPlayer = () => {
-        const newPlayer = getRandomPlayer();
-        while (playersData.some(player => player.ranking === newPlayer.ranking)) {
-            getRandomPlayer();
-            return;
+    const handleAddRandomPlayer = async () => {
+        isAddingRef.current = true; 
+
+        while (isAddingRef.current) {
+            const newPlayer = getRandomPlayer();
+            
+            if (playersData.some(player => player.ranking === newPlayer.ranking)) {
+                continue;
+            }
+
+            console.log("Adding new player", newPlayer);
+            setPlayersData((prevPlayers) => [...prevPlayers, newPlayer]);
+
+            await new Promise(resolve => setTimeout(resolve, 2000)); 
         }
-        console.log("Adding new player", newPlayer);
-        setPlayersData((prevPlayers) => [...prevPlayers, newPlayer]);
+    };
+
+    const handleStopAdding = () => {
+        isAddingRef.current = false;
     };
 
     return (
         <div>
             <h1>Statistics</h1>
-            <button onClick={handleAddRandomPlayer}>Add Random Player</button>
+            <button onClick={handleAddRandomPlayer}>
+                Start Adding Random Players
+            </button>
+            <button onClick={handleStopAdding}>
+                Stop Adding
+            </button>
             <PlayerPieChart players={playersData} />
             <PlayerLineChart players={playersData} />
         </div>

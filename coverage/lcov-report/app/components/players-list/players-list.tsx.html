@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.77% </span>
+                <span class="strong">95.32% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>88/90</span>
+                <span class='fraction'>102/107</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">75% </span>
+                <span class="strong">60% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>3/4</span>
+                <span class='fraction'>3/5</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">97.77% </span>
+                <span class="strong">95.32% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>88/90</span>
+                <span class='fraction'>102/107</span>
             </div>
         
             
@@ -152,7 +152,24 @@
 <a name='L87'></a><a href='#L87'>87</a>
 <a name='L88'></a><a href='#L88'>88</a>
 <a name='L89'></a><a href='#L89'>89</a>
-<a name='L90'></a><a href='#L90'>90</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L90'></a><a href='#L90'>90</a>
+<a name='L91'></a><a href='#L91'>91</a>
+<a name='L92'></a><a href='#L92'>92</a>
+<a name='L93'></a><a href='#L93'>93</a>
+<a name='L94'></a><a href='#L94'>94</a>
+<a name='L95'></a><a href='#L95'>95</a>
+<a name='L96'></a><a href='#L96'>96</a>
+<a name='L97'></a><a href='#L97'>97</a>
+<a name='L98'></a><a href='#L98'>98</a>
+<a name='L99'></a><a href='#L99'>99</a>
+<a name='L100'></a><a href='#L100'>100</a>
+<a name='L101'></a><a href='#L101'>101</a>
+<a name='L102'></a><a href='#L102'>102</a>
+<a name='L103'></a><a href='#L103'>103</a>
+<a name='L104'></a><a href='#L104'>104</a>
+<a name='L105'></a><a href='#L105'>105</a>
+<a name='L106'></a><a href='#L106'>106</a>
+<a name='L107'></a><a href='#L107'>107</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -172,6 +189,7 @@
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -199,6 +217,10 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -220,6 +242,18 @@
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">31x</span>
 <span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-yes">6x</span>
@@ -251,18 +285,19 @@ import AddPlayerForm from '../add-player-form/add-player-form';
 import './players-list.css';
 import ReactPaginate from 'react-paginate';
 &nbsp;
-const playersPerPage = 6;
+// const playersPerPage = 6;
 &nbsp;
 interface PlayersListProps {
     searchQuery: string;
     showForm: boolean;
     onCloseForm: () =&gt; void;
     sortOrder: string;
-  }
+}
 &nbsp;
 const PlayersList: React.FC&lt;PlayersListProps&gt; = ({ searchQuery = '', sortOrder, showForm, onCloseForm }) =&gt; {
     const [currentPage, setCurrentPage] = useState(0);
     const [playersData, setPlayers] = useState(players);
+    const [playersPerPage, setPlayersPerPage] = useState(6);
 &nbsp;
     const filteredPlayers = playersData.filter((player) =&gt;
         player.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -284,9 +319,13 @@ const PlayersList: React.FC&lt;PlayersListProps&gt; = ({ searchQuery = '', sortO
 &nbsp;
 &nbsp;
     const offset = currentPage * playersPerPage;
-    const currentPlayers = filteredPlayersWithColor.slice(offset, offset + playersPerPage);    
+    const currentPlayers = filteredPlayersWithColor.slice(offset, offset + playersPerPage);
     const pageCount = Math.ceil(filteredPlayersWithColor.length / playersPerPage);
 &nbsp;
+    const handlePlayersPerPageChange = <span class="fstat-no" title="function not covered" >(event: React.ChangeEvent&lt;HTMLSelectElement&gt;) =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        setPlayersPerPage(Number(event.target.value));</span>
+<span class="cstat-no" title="statement not covered" >        setCurrentPage(0);</span>
+<span class="cstat-no" title="statement not covered" >    };</span>
 &nbsp;
     const handlePageClick = <span class="fstat-no" title="function not covered" >(data) =&gt; {</span>
 <span class="cstat-no" title="statement not covered" >        setCurrentPage(data.selected);</span>
@@ -302,13 +341,25 @@ const PlayersList: React.FC&lt;PlayersListProps&gt; = ({ searchQuery = '', sortO
         setPlayers([...playersData, newPlayer]);
         console.log(newPlayer);
     };
-    
+&nbsp;
     return (
         &lt;div className='players-list-container'&gt;
             &lt;div className='players-list'&gt;
                 {currentPlayers.map((player, index) =&gt; {
                     return (&lt;PlayerCard key={player.id} player={player} onDelete={handleDelete} cardLabel={player.color} /&gt;)
                 })}
+            &lt;/div&gt;
+            &lt;div className="players-list-controls"&gt;
+                &lt;label htmlFor="players-per-page"&gt;Players per page:&lt;/label&gt;
+                &lt;select
+                    id="players-per-page"
+                    value={playersPerPage}
+                    onChange={handlePlayersPerPageChange}&gt;
+                    &lt;option value={3}&gt;3&lt;/option&gt;
+                    &lt;option value={4}&gt;4&lt;/option&gt;
+                    &lt;option value={5}&gt;5&lt;/option&gt;
+                    &lt;option value={6}&gt;6&lt;/option&gt;
+                &lt;/select&gt;
             &lt;/div&gt;
             &lt;div className='pagination-container'&gt;
                 &lt;ReactPaginate
@@ -337,7 +388,7 @@ export default PlayersList;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-24T18:46:31.364Z
+                at 2025-04-01T10:30:20.747Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
