@@ -1,5 +1,5 @@
 import './player-card.css';
-import { Player } from '../../domain/hardcoded_entities';
+import { Player } from '../../api/players/data';
 import React from 'react';
 import { useRouter } from 'next/navigation';
 

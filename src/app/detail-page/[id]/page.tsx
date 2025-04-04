@@ -1,22 +1,34 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { Player } from "../../api/players/data";
 import "./details-page.css";
-import players from "../../domain/hardcoded_entities";
 
 export default function DetailsPage() {
     const router = useRouter();
     const { id } = useParams<{ id: string }>();
-    const playerData = players.find((player) => player.id === Number(id));
-
-    if (!playerData) {
-        return <h1>Player not found</h1>;
-    }
-
+    const [currentPlayer, setCurrentPlayer] = useState<Player | null>(null);
+    const [editedPlayer, setEditedPlayer] = useState<Player | null>(null);
     const [isEditable, setEditable] = useState(false);
-    const [currentPlayer, setCurrentPlayer] = useState({ ...playerData }); 
-    const [editedPlayer, setEditedPlayer] = useState({ ...playerData }); 
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+        const fetchPlayer = async () => {
+          try {
+            const res = await fetch(`/api/players/${id}`);
+            const data = await res.json();
+            setCurrentPlayer(data);
+            setEditedPlayer(data);
+          } catch (error) {
+            console.error("Error fetching player:", error);
+          } finally {
+            setLoading(false);
+          }
+        };
+    
+        if (id) fetchPlayer();
+      }, [id]);
 
     const toggleEdit = () => {
         setEditable(true);
@@ -24,21 +36,34 @@ export default function DetailsPage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setEditedPlayer((prev) => ({ ...prev, [name]: value }));
-    };
+        setEditedPlayer((prev) => ({
+          ...prev!,
+          [name]: name === "ranking" || name === "number_of_titles" ? Number(value) : value,
+        }));
+      };
 
-    const handleSave = () => {
-        const playerIndex = players.findIndex((player) => player.id === Number(id));
-        if (playerIndex !== -1) {
-            players[playerIndex] = editedPlayer;
+      const handleSave = async () => {
+        try {
+          const res = await fetch(`/api/players/${id}`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(editedPlayer),
+          });
+    
+          const updated = await res.json();
+          setCurrentPlayer(updated);
+          setEditable(false);
+        } catch (error) {
+          console.error("Error updating player:", error);
         }
-        setCurrentPlayer(editedPlayer);
-        setEditable(false);
-    };
+      };
 
     const handleBackClick = () => {
         router.push("/");
     };
+
+    if (loading) return <h1>Loading...</h1>;
+    if (!currentPlayer) return <h1>Player not found</h1>;
 
     return (
         <div className="details-page">

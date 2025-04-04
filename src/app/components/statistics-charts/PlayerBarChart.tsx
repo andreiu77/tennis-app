@@ -1,22 +1,38 @@
 "use client";
 
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from "recharts";
-import { Player } from "../../domain/hardcoded_entities";
+import { Player } from "../../api/players/data";
 
-// PlayerLineChart component that displays player ranking
-interface PlayerRankingLineChartProps {
-  players: Player[];
-}
-
-const PlayerLineChart: React.FC<PlayerRankingLineChartProps> = ({ players }) => {
+const PlayerLineChart: React.FC = () => {
   // Prepare the data to display rankings of players
+  const [players, setPlayers] = useState<Player[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchPlayers = async () => {
+      try {
+        const res = await fetch("/api/players");
+        const data = await res.json();
+        setPlayers(data);
+      } catch (error) {
+        console.error("Failed to fetch players:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPlayers();
+  }, []);
+
   const data = useMemo(() => {
     return players.map((player) => ({
       name: player.name,
       ranking: player.ranking,
     }));
   }, [players]); // Recalculate when players change
+
+  if (loading) return <p>Loading chart...</p>;
 
   return (
     <ResponsiveContainer width="100%" height={400}>

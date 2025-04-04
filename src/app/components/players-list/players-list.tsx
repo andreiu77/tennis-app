@@ -1,7 +1,8 @@
 'use client';
 
-import React, { useState } from 'react';
-import players from '../../domain/hardcoded_entities';
+import { fetchPlayers, addPlayer, deletePlayer, updatePlayer } from '../../services/playersApi';
+
+import React, { useState, useEffect } from 'react';
 import PlayerCard from '../player-card/player-card';
 import AddPlayerForm from '../add-player-form/add-player-form';
 
@@ -19,22 +20,12 @@ interface PlayersListProps {
 
 const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, showForm, onCloseForm }) => {
     const [currentPage, setCurrentPage] = useState(0);
-    const [playersData, setPlayers] = useState(players);
+    const [playersData, setPlayers] = useState([]);
     const [playersPerPage, setPlayersPerPage] = useState(6);
 
-    const filteredPlayers = playersData.filter((player) =>
-        player.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
-    if (sortOrder === 'ranking-asc') {
-        filteredPlayers.sort((a, b) => a.ranking - b.ranking);
-    } else {
-        filteredPlayers.sort((a, b) => b.ranking - a.ranking);
-    }
-
-    const chunkSize = Math.ceil(filteredPlayers.length / 3);
+    const chunkSize = Math.ceil(playersData.length / 3);
     const sectionColors = ["#d4af37", "#c0c0c0", "#cd7f32"];  // Gold, Silver, Bronze
-    const filteredPlayersWithColor = filteredPlayers.map((player, index) => {
+    const playersDataWithColor = playersData.map((player, index) => {
         const sectionIndex = Math.floor(index / chunkSize);
         const color = sectionColors[sectionIndex];
         return { ...player, color };  // Add the color field to each player
@@ -42,8 +33,8 @@ const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, 
 
 
     const offset = currentPage * playersPerPage;
-    const currentPlayers = filteredPlayersWithColor.slice(offset, offset + playersPerPage);
-    const pageCount = Math.ceil(filteredPlayersWithColor.length / playersPerPage);
+    const currentPlayers = playersDataWithColor.slice(offset, offset + playersPerPage);
+    const pageCount = Math.ceil(playersDataWithColor.length / playersPerPage);
 
     const handlePlayersPerPageChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         setPlayersPerPage(Number(event.target.value));
@@ -54,16 +45,36 @@ const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, 
         setCurrentPage(data.selected);
     };
 
-    const handleDelete = (id: number) => {
-        const updatedPlayers = playersData.filter(player => player.id !== id);
-        setPlayers(updatedPlayers);
-        setCurrentPage(0);
+    const handleDelete = async (id: number) => {
+        try {
+            await deletePlayer(id);
+            setPlayers((prevPlayers) => prevPlayers.filter((player) => player.id !== id));
+        } catch (error) {
+            console.error('Error deleting player:', error);
+        }
     };
 
-    const handleAddPlayer = (newPlayer: any) => {
-        setPlayers([...playersData, newPlayer]);
-        console.log(newPlayer);
+    const handleAddPlayer = async (newPlayer) => {
+        try {
+            const addedPlayer = await addPlayer(newPlayer);
+            setPlayers([...playersData, addedPlayer]);
+            console.log('Player added:', addedPlayer);
+        } catch (error) {
+            console.error('Error adding player:', error);
+        }
     };
+
+    useEffect(() => {
+        const loadPlayers = async () => {
+            try {
+                const data = await fetchPlayers(searchQuery, sortOrder);
+                setPlayers(data);
+            } catch (error) {
+                console.error('Error fetching players:', error);
+            }
+        };
+        loadPlayers();
+    }, [searchQuery, sortOrder]);
 
     return (
         <div className='players-list-container'>

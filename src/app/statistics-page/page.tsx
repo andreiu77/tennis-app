@@ -1,49 +1,38 @@
 "use client";
 
 import PlayerPieChart from "../components/statistics-charts/PlayerPieChart";
-import { useState, useRef } from "react";
-import players from "../domain/hardcoded_entities";
-import getRandomPlayer from "../domain/random-players";
+import { useState, useEffect } from "react";
 import PlayerLineChart from "../components/statistics-charts/PlayerBarChart";
 
 import "./statistics-page.css";
 
 export default function StatisticsPage() {
-    const [playersData, setPlayersData] = useState(players);
-    const isAddingRef = useRef(false);
-
-    const handleAddRandomPlayer = async () => {
-        isAddingRef.current = true; 
-
-        while (isAddingRef.current) {
-            const newPlayer = getRandomPlayer();
-            
-            if (playersData.some(player => player.ranking === newPlayer.ranking)) {
-                continue;
+    const [playersData, setPlayersData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    
+    useEffect(() => {
+        const fetchPlayers = async () => {
+            try {
+                const res = await fetch("/api/players");
+                const data = await res.json();
+                setPlayersData(data);
+            } catch (error) {
+                console.error("Failed to fetch players:", error);
+            } finally {
+                setLoading(false);
             }
+        };
 
-            console.log("Adding new player", newPlayer);
-            setPlayersData((prevPlayers) => [...prevPlayers, newPlayer]);
+        fetchPlayers();
+    }, []);
 
-            await new Promise(resolve => setTimeout(resolve, 2000)); 
-        }
-    };
-
-    const handleStopAdding = () => {
-        isAddingRef.current = false;
-    };
+    if (loading) return <p>Loading statistics...</p>;
 
     return (
         <div>
             <h1>Statistics</h1>
-            <button onClick={handleAddRandomPlayer}>
-                Start Adding Random Players
-            </button>
-            <button onClick={handleStopAdding}>
-                Stop Adding
-            </button>
-            <PlayerPieChart players={playersData} />
-            <PlayerLineChart players={playersData} />
+            <PlayerPieChart />
+            <PlayerLineChart />
         </div>
     );
 }

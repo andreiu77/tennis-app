@@ -8,7 +8,7 @@ interface AddPlayerFormProps {
     name: string;
     country: string;
     racket_brand: string;
-    date_of_birth: string;  
+    date_of_birth: string;
     ranking: Number;
     number_of_titles: Number;
     handedness: string;
@@ -29,7 +29,23 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
     imageUrl: null,
   });
 
+  const isFormValid = () => {
+    return (
+      newPlayer.name.trim() !== "" &&
+      newPlayer.country.trim() !== "" &&
+      newPlayer.racket_brand.trim() !== "" &&
+      newPlayer.date_of_birth !== "" &&
+      newPlayer.ranking > 0 &&
+      newPlayer.number_of_titles >= 0 &&
+      ["left-handed", "right-handed"].includes(newPlayer.handedness)
+    );
+  };
+
   const handleSubmit = () => {
+    if (!isFormValid()) {
+      alert("Please fill out all required fields correctly.");
+      return;
+    }
     onAddPlayer({ ...newPlayer, id: Date.now() });
     onClose();
   };
@@ -76,7 +92,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
           <label>Racket brand:</label>
           <input type="text" placeholder="Enter racket brand..." value={newPlayer.racket_brand} onChange={(e) => setNewPlayer({ ...newPlayer, racket_brand: e.target.value })} />
         </div>
-        
+
         <div className="form-group">
           <label>Birth date:</label>
           <div className="input-icon">
