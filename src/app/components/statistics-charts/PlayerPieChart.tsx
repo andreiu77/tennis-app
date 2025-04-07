@@ -1,33 +1,19 @@
 "use client";
 
-import React, { useMemo, useRef, useEffect, useState } from "react";
+import React, { useMemo, useRef } from "react";
 import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 import { Player } from "../../api/players/data";
 
 const getRandomColor = () => `#${Math.floor(Math.random() * 16777215).toString(16)}`;
 
+interface PlayerPieChartProps {
+  players: Player[]; // Accept the players prop from the parent component
+}
 
-const PlayerPieChart: React.FC = () => {
-  const [players, setPlayers] = useState<Player[]>([]);
-  const [loading, setLoading] = useState(true);
+const PlayerPieChart: React.FC<PlayerPieChartProps> = ({ players=[] }) => {
   const colorMap = useRef<Record<string, string>>({});
 
-  useEffect(() => {
-    const fetchPlayers = async () => {
-      try {
-        const res = await fetch("/api/players");
-        const data = await res.json();
-        setPlayers(data);
-      } catch (err) {
-        console.error("Failed to fetch players:", err);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchPlayers();
-  }, []);
-
+  // Prepare the data to display player count by country
   const data = useMemo(() => {
     const countMap: Record<string, number> = {};
 
@@ -47,9 +33,9 @@ const PlayerPieChart: React.FC = () => {
         color: colorMap.current[country],
       };
     });
-  }, [players]); // Recalculate only when players change
+  }, [players]); // Recalculate when players change
 
-  if (loading) return <p>Loading chart...</p>;
+  if (players.length === 0) return <p>No data available</p>;
 
   return (
     <PieChart width={400} height={400}>

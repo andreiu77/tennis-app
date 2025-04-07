@@ -14,7 +14,7 @@ export async function GET(req: Request, context: { params: { id: string } }) {
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
     const body = await req.json();
     const { id } = await params;
-    if (getPlayerById(parseInt(params.id)) === undefined){
+    if (getPlayerById(parseInt(id)) === undefined){
         return NextResponse.json({ error: "Player not found" }, { status: 404 });
         // just for testing
         // return new Response(
@@ -22,7 +22,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         //     { status: 404 }
         // );
     }
-    const validationError = validatePlayerData(body);
+    const validationError = validatePlayerData(body, parseInt(id));
     if (validationError){
         return NextResponse.json({ error: validationError }, { status: 400 });
         // just for testing

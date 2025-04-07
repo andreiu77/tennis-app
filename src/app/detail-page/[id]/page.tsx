@@ -4,6 +4,8 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Player } from "../../api/players/data";
 import "./details-page.css";
+import { set } from "react-datepicker/dist/date_utils";
+import VideoUpload from "./video-upload";
 
 export default function DetailsPage() {
     const router = useRouter();
@@ -12,23 +14,25 @@ export default function DetailsPage() {
     const [editedPlayer, setEditedPlayer] = useState<Player | null>(null);
     const [isEditable, setEditable] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
 
     useEffect(() => {
         const fetchPlayer = async () => {
-          try {
-            const res = await fetch(`/api/players/${id}`);
-            const data = await res.json();
-            setCurrentPlayer(data);
-            setEditedPlayer(data);
-          } catch (error) {
-            console.error("Error fetching player:", error);
-          } finally {
-            setLoading(false);
-          }
+            try {
+                const res = await fetch(`/api/players/${id}`);
+                const data = await res.json();
+                setCurrentPlayer(data);
+                setEditedPlayer(data);
+            } catch (error) {
+                console.error("Error fetching player:", error);
+            } finally {
+                setLoading(false);
+            }
         };
-    
+
         if (id) fetchPlayer();
-      }, [id]);
+    }, [id]);
 
     const toggleEdit = () => {
         setEditable(true);
@@ -37,26 +41,36 @@ export default function DetailsPage() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setEditedPlayer((prev) => ({
-          ...prev!,
-          [name]: name === "ranking" || name === "number_of_titles" ? Number(value) : value,
+            ...prev!,
+            [name]: name === "ranking" || name === "number_of_titles" ? Number(value) : value,
         }));
-      };
+    };
 
-      const handleSave = async () => {
+    const handleSave = async () => {
+        console.log("Saving player data:", JSON.stringify(editedPlayer));
         try {
-          const res = await fetch(`/api/players/${id}`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify(editedPlayer),
-          });
-    
-          const updated = await res.json();
-          setCurrentPlayer(updated);
-          setEditable(false);
+            const res = await fetch(`/api/players/${id}`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(editedPlayer),
+            });
+
+            if (!res.ok) {
+                const error = await res.json();
+                console.error("Failed to update:", error);
+                setErrorMessage("Failed to update player: " + error.error);
+                return;
+            }
+
+            const { player: updated } = await res.json();
+            setCurrentPlayer(updated);
+            console.log("Player updated:", updated);
+            setEditable(false);
+            setErrorMessage(null); // Clear any previous error message
         } catch (error) {
-          console.error("Error updating player:", error);
+            console.error("Error updating player:", error);
         }
-      };
+    };
 
     const handleBackClick = () => {
         router.push("/");
@@ -155,6 +169,20 @@ export default function DetailsPage() {
                         </button>
                     ) : null}
                 </div>
+
+                <div>
+                    {currentPlayer && (
+                        <VideoUpload playerId={currentPlayer.id.toString()} />
+                    )}
+                </div>
+
+                {errorMessage && (
+                    <div className="error-message">
+                        <p>{errorMessage}</p>
+                        <button onClick={() => window.location.reload()}>Refresh Page</button>
+                    </div>
+                )}
+
             </div>
         </div>
     );
