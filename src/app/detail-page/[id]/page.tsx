@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Player } from "../../api/players/data";
 import "./details-page.css";
-import { set } from "react-datepicker/dist/date_utils";
 import VideoUpload from "./video-upload";
 
 export default function DetailsPage() {
@@ -133,7 +132,10 @@ export default function DetailsPage() {
                     <input
                         type="date"
                         name="date_of_birth"
-                        value={isEditable ? editedPlayer.date_of_birth : currentPlayer.date_of_birth}
+                        value={isEditable 
+                            ? editedPlayer.date_of_birth?.toString().split("T")[0] 
+                            : currentPlayer.date_of_birth?.toString().split("T")[0]
+                        }
                         onChange={handleChange}
                         readOnly={!isEditable}
                     />

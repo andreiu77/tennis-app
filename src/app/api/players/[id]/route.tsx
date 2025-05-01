@@ -42,9 +42,16 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     const updatedPlayer = await prisma.player.update({
         where: { id },
         data: {
-            ...body,
+            name: body.name,
+            country: body.country,
             date_of_birth: new Date(body.date_of_birth),
-        },
+            ranking: body.ranking,
+            number_of_titles: body.number_of_titles,
+            handedness: body.handedness,
+            imageUrl: body.imageUrl,
+            racket_brand: body.racket_brand,
+          },
+        include: { racket: true },
     });
 
     return NextResponse.json({ message: "Player updated", player: updatedPlayer });

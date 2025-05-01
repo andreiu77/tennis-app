@@ -7,7 +7,8 @@ import { validatePlayerData } from "./Validation";
 export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("q")?.toLowerCase() || "";
-    const sort = searchParams.get("sort") || "asc";
+    const sortParam = searchParams.get("sort") || "ranking-asc";
+    const sortDirection = sortParam.endsWith("desc") ? "desc" : "asc";
 
     const players = await prisma.player.findMany({
         where: query
@@ -19,7 +20,7 @@ export async function GET(req: Request) {
               }
             : undefined,
         orderBy: {
-            ranking: sort === "desc" ? "desc" : "asc",
+            ranking: sortDirection,
         },
         include: {
             racket: true,
