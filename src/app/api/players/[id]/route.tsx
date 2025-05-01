@@ -1,52 +1,68 @@
 import { NextResponse } from "next/server";
-import { getPlayerById, updatePlayer, deletePlayer, getAllPlayers } from "../data";
+import prisma from "@/lib/prisma";
 import { validatePlayerData } from "../Validation";
 
 // GET a single player by ID
-export async function GET(req: Request, context: { params: { id: string } }) {
-    const { id } = await context.params;
-    const player = getPlayerById(parseInt(id));
-    if (!player) return NextResponse.json({ error: "Player not found" }, { status: 404 });
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+    const id = parseInt(params.id);
+    if (isNaN(id)) {
+        return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+    }
+
+    const player = await prisma.player.findUnique({
+        where: { id },
+        include: { racket: true },
+    });
+
+    if (!player) {
+        return NextResponse.json({ error: "Player not found" }, { status: 404 });
+    }
+
     return NextResponse.json(player);
 }
 
 // UPDATE a player
 export async function PUT(req: Request, { params }: { params: { id: string } }) {
-    const body = await req.json();
-    const { id } = await params;
-    if (getPlayerById(parseInt(id)) === undefined){
+    const id = parseInt(params.id);
+    if (isNaN(id)) {
+        return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+    }
+
+    const existingPlayer = await prisma.player.findUnique({ where: { id } });
+    if (!existingPlayer) {
         return NextResponse.json({ error: "Player not found" }, { status: 404 });
-        // just for testing
-        // return new Response(
-        //     JSON.stringify({ error: "Player not found" }),
-        //     { status: 404 }
-        // );
     }
-    const validationError = validatePlayerData(body, parseInt(id));
-    if (validationError){
+
+    const body = await req.json();
+    const validationError = validatePlayerData(body, id);
+    if (validationError) {
         return NextResponse.json({ error: validationError }, { status: 400 });
-        // just for testing
-        // return new Response(
-        //     JSON.stringify({ error: "Player not found" }),
-        //     { status: 404 }
-        // );
     }
-    const updatedPlayer = updatePlayer(parseInt(id), body);
+
+    const updatedPlayer = await prisma.player.update({
+        where: { id },
+        data: {
+            ...body,
+            date_of_birth: new Date(body.date_of_birth),
+        },
+    });
+
     return NextResponse.json({ message: "Player updated", player: updatedPlayer });
-    // just for testing
-    // return new Response(
-    //     JSON.stringify({ message: "Player updated", player: updatedPlayer }),
-    //     { status: 200 }
-    // );
 }
+
 
 // DELETE a player
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-    // Validation
-    if (!params.id || isNaN(parseInt(params.id)) || getPlayerById(parseInt(params.id)) === undefined) {
+    const id = parseInt(params.id);
+    if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
-    const deleted = deletePlayer(parseInt(params.id));
-    if (!deleted) return NextResponse.json({ error: "Player not found" }, { status: 404 });
-    return NextResponse.json({ message: "Player deleted" });
+
+    try {
+        await prisma.player.delete({ where: { id } });
+        return NextResponse.json({ message: "Player deleted" });
+    } catch (error) {
+        return NextResponse.json({ error: "Player not found" }, { status: 404 });
+    }
 }
+

@@ -1,0 +1,39 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Player {
+  id               Int        @id @default(autoincrement())
+  name             String
+  country          String
+  date_of_birth    DateTime
+  ranking          Int
+  number_of_titles Int
+  handedness       Handedness
+  imageUrl         String
+  racket_brand     String
+  racket           Racket     @relation(fields: [racket_brand], references: [brand_name])
+  createdAt        DateTime   @default(now())
+}
+
+model Racket {
+  brand_name String   @id
+  players    Player[] // One-to-many relation
+}
+
+enum Handedness {
+  left_handed
+  right_handed
+}

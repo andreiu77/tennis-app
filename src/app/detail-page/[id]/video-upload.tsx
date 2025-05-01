@@ -56,9 +56,9 @@ export default function VideoUpload({ playerId }: { playerId: string }) {
     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
       <h3>Upload Video</h3>
       <input type="file" onChange={handleFileUpload} accept="video/*" />
-      
+
       {loading && <p>Uploading... {uploadProgress}%</p>}
-      
+
       {uploadProgress > 0 && uploadProgress < 100 && (
         <div style={{ width: '100%', backgroundColor: '#f3f3f3', borderRadius: '5px' }}>
           <div
@@ -75,11 +75,17 @@ export default function VideoUpload({ playerId }: { playerId: string }) {
       {error && <p style={{ color: 'red' }}>{error}</p>}
 
       {videoUrl && (
-        <div>
+        <div style={{ marginTop: '10px' }}>
           <video width={200} controls>
             <source src={videoUrl} type="video/mp4" />
             Your browser does not support the video tag.
           </video>
+
+          <div style={{ marginTop: '10px' }}>
+            <a href={videoUrl} download={`player-${playerId}-video.mp4`}>
+              <button>Download Video</button>
+            </a>
+          </div>
         </div>
       )}
     </div>

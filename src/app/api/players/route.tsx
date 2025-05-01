@@ -1,32 +1,34 @@
 import { NextResponse } from "next/server";
-import { getAllPlayers, addPlayer } from "./data";
+import prisma from "@/lib/prisma"
 import { validatePlayerData } from "./Validation";
 
 
 // GET all players
 export async function GET(req: Request) {
-    const players = getAllPlayers();
     const { searchParams } = new URL(req.url);
     const query = searchParams.get("q")?.toLowerCase() || "";
     const sort = searchParams.get("sort") || "asc";
 
-    let filteredPlayers = players;
+    const players = await prisma.player.findMany({
+        where: query
+            ? {
+                  name: {
+                      contains: query,
+                      mode: "insensitive",
+                  },
+              }
+            : undefined,
+        orderBy: {
+            ranking: sort === "desc" ? "desc" : "asc",
+        },
+        include: {
+            racket: true,
+        },
+    });
 
-    if (query) {
-        filteredPlayers = players.filter(player => {
-            return player.name.toLowerCase().includes(query);
-        });
-    }
-
-    if (sort === "asc") {
-        filteredPlayers.sort((a, b) => a.ranking - b.ranking);
-    } else if (sort === "desc") {
-        filteredPlayers.sort((a, b) => b.ranking - a.ranking);
-    }
-
-    //return NextResponse.json(filteredPlayers);
+    //return NextResponse.json(players);
     //just for testing
-    return new Response(JSON.stringify(filteredPlayers), {
+    return new Response(JSON.stringify(players), {
         status: 200,
         headers: { "Content-Type": "application/json" },
     });
@@ -46,11 +48,24 @@ export async function POST(req: Request) {
         // );
     }
     // Add player
-    const newPlayer = addPlayer(body);
-    return NextResponse.json({ message: "Player added", player: newPlayer });
-    // just for testing
-    // return new Response(
-    //     JSON.stringify({ message: "Player added", player: newPlayer }),
-    //     { status: 200 }
-    // );
+    try {
+        const newPlayer = await prisma.player.create({
+            data: {
+                name: body.name,
+                country: body.country,
+                date_of_birth: new Date(body.date_of_birth),
+                ranking: body.ranking,
+                number_of_titles: body.number_of_titles,
+                handedness: body.handedness,
+                imageUrl: body.imageUrl,
+                racket_brand: body.racketBrand,
+            },
+        });
+        return NextResponse.json({ message: "Player added", player: newPlayer });
+    } catch (err) {
+        return NextResponse.json(
+            { error: "Failed to create player", details: err },
+            { status: 500 }
+        );
+    }
 }

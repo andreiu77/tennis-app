@@ -1,7 +1,7 @@
 // src/app/api/start-websocket/route.ts
 
 import { WebSocketServer } from "ws";
-import { startRandomPlayerGenerator } from "../../utils/startGenerateRandomPlayers";
+import { startRandomPlayerGenerator, stopRandomPlayerGenerator } from "../../utils/startGenerateRandomPlayers";
 
 let wss;
 
@@ -19,12 +19,14 @@ export async function POST(req: Request, res: Response) {
 
     startRandomPlayerGenerator((newPlayer) => {
       const data = JSON.stringify({ type: "new-player", payload: newPlayer });
-      wss.clients.forEach((client) => {
-        if (client.readyState === 1) {
-          client.send(data);
-        }
+      if(wss){
+        wss.clients.forEach((client) => {
+          if (client.readyState === 1) {
+            client.send(data);
+          }
+        });
+      }
       });
-    });
 
     console.log("WebSocket server started on ws://localhost:3001");
   }
@@ -45,10 +47,29 @@ export async function GET(req: Request) {
 
 export async function DELETE(req: Request) {
   if (wss) {
-    // Close WebSocket server
-    wss.close(() => {
-      console.log("WebSocket server stopped");
+    console.log("Stopping WebSocket server...");
+
+    stopRandomPlayerGenerator();
+    // Close all active connections
+    wss.clients.forEach((client) => {
+      if (client.readyState === 1) {
+        client.close();
+      }
     });
+
+    // Wrap close in a Promise to ensure it's done before responding
+    await new Promise((resolve, reject) => {
+      wss.close((err) => {
+        if (err) {
+          console.error("Error closing WebSocket server:", err);
+          reject(err);
+        } else {
+          console.log("WebSocket server stopped");
+          resolve(null);
+        }
+      });
+    });
+
     wss = null;
 
     return new Response(
@@ -62,4 +83,5 @@ export async function DELETE(req: Request) {
     { status: 400 }
   );
 }
+
 
