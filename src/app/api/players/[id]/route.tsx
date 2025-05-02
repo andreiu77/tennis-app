@@ -39,6 +39,15 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         return NextResponse.json({ error: validationError }, { status: 400 });
     }
 
+    // check racket brand exists
+    const racketBrandExists = await prisma.racket.findUnique({
+        where: { brand_name: body.racket_brand },
+    });
+    
+    if (!racketBrandExists) {
+        return NextResponse.json({ error: "Racket brand not found" }, { status: 404 });
+    }
+
     const updatedPlayer = await prisma.player.update({
         where: { id },
         data: {

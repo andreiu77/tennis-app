@@ -49,6 +49,16 @@ export async function POST(req: Request) {
         // );
     }
     // Add player
+
+    // check racket brand exists
+    const racketBrandExists = await prisma.racket.findUnique({
+        where: { brand_name: body.racket_brand },
+    });
+    
+    if (!racketBrandExists) {
+        return NextResponse.json({ error: "Racket brand not found" }, { status: 404 });
+    }
+
     try {
         const newPlayer = await prisma.player.create({
             data: {
@@ -58,12 +68,17 @@ export async function POST(req: Request) {
                 ranking: body.ranking,
                 number_of_titles: body.number_of_titles,
                 handedness: body.handedness,
-                imageUrl: body.imageUrl,
-                racket_brand: body.racketBrand,
+                imageUrl: body.imageUrl || "",
+                racket: {
+                    connect: {
+                        brand_name: body.racket_brand,
+                    }
+                }
             },
         });
         return NextResponse.json({ message: "Player added", player: newPlayer });
     } catch (err) {
+        console.error("Error creating player:", err);
         return NextResponse.json(
             { error: "Failed to create player", details: err },
             { status: 500 }

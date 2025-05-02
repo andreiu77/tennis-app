@@ -1,3 +1,5 @@
+import { Toaster } from 'react-hot-toast';
+
 export default function DashboardLayout({
   children,
 }: {
@@ -11,7 +13,19 @@ export default function DashboardLayout({
       </head>
 
       <body>        
-        <main>{children}</main>
+        <main>
+          <Toaster
+            position="top-center"
+            reverseOrder={false}
+            toastOptions={{
+              duration: 5000,
+              style: {
+                background: '#363636',
+                color: '#fff',
+              },
+            }}/>
+          {children}
+        </main>
       </body>
     </html>
   )

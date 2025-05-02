@@ -8,6 +8,7 @@ import AddPlayerForm from '../add-player-form/add-player-form';
 
 import './players-list.css';
 import ReactPaginate from 'react-paginate';
+import toast from 'react-hot-toast';
 
 // const playersPerPage = 6;
 
@@ -22,6 +23,7 @@ const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, 
     const [currentPage, setCurrentPage] = useState(0);
     const [playersData, setPlayers] = useState([]);
     const [playersPerPage, setPlayersPerPage] = useState(6);
+
 
     const chunkSize = Math.ceil(playersData.length / 3);
     const sectionColors = ["#d4af37", "#c0c0c0", "#cd7f32"];  // Gold, Silver, Bronze
@@ -56,12 +58,33 @@ const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, 
 
     const handleAddPlayer = async (newPlayer) => {
         try {
-            const addedPlayer = await addPlayer(newPlayer);
-            setPlayers([...playersData, addedPlayer]);
-            console.log('Player added:', addedPlayer);
-        } catch (error) {
-            console.error('Error adding player:', error);
-        }
+            // Make the POST request to the API from the parent
+            const response = await fetch("/api/players", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(newPlayer),
+            });
+        
+            if (!response.ok) {
+              const error = await response.json();
+              if (response.status === 404) {
+                toast("Racket brand not found. Please check the brand name.");
+              }
+              return;
+            }
+        
+            const data = await response.json();
+            console.log("Player added:", data);
+        
+            // After successfully adding the player, fetch the updated list
+            const updatedPlayers = await fetchPlayers(searchQuery, sortOrder);
+            setPlayers(updatedPlayers);  // Update the state with the new player list
+            setCurrentPage(0);  // Optionally, reset the page to 1 after adding a player
+          } catch (error) {
+            console.error("Error adding player:", error);
+          }
     };
 
     useEffect(() => {

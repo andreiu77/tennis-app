@@ -5,6 +5,10 @@ import { useParams, useRouter } from "next/navigation";
 import { Player } from "../../api/players/data";
 import "./details-page.css";
 import VideoUpload from "./video-upload";
+import ImageSelector from "../ImageSelector";
+import toast from 'react-hot-toast';
+
+
 
 export default function DetailsPage() {
     const router = useRouter();
@@ -14,6 +18,7 @@ export default function DetailsPage() {
     const [isEditable, setEditable] = useState(false);
     const [loading, setLoading] = useState(true);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [showImageSelector, setShowImageSelector] = useState(false);
 
 
     useEffect(() => {
@@ -56,7 +61,9 @@ export default function DetailsPage() {
 
             if (!res.ok) {
                 const error = await res.json();
-                console.error("Failed to update:", error);
+                if (res.status === 404) {
+                    toast.error("Racket brand not found. Please check the brand name.");
+                }
                 setErrorMessage("Failed to update player: " + error.error);
                 return;
             }
@@ -82,6 +89,19 @@ export default function DetailsPage() {
         <div className="details-page">
             <div className="left-side">
                 <img src={currentPlayer.imageUrl} alt={currentPlayer.name} />
+                <button onClick={() => setShowImageSelector(true)}>
+                    Change Image
+                </button>
+                {showImageSelector && (
+                    <ImageSelector
+                        selected={currentPlayer.imageUrl}
+                        onSelect={(url) => {
+                            setCurrentPlayer((currentPlayer) => ({ ...currentPlayer, imageUrl: url }));
+                            setEditedPlayer((editedPlayer) => ({ ...editedPlayer!, imageUrl: url }));
+                        }}
+                        onClose={() => setShowImageSelector(false)}
+                    />
+                )}
                 <h1>{currentPlayer.name}</h1>
                 <p style={{ margin: 0 }}>{currentPlayer.handedness}</p>
                 <h1>ATP #{currentPlayer.ranking}</h1>
@@ -132,8 +152,8 @@ export default function DetailsPage() {
                     <input
                         type="date"
                         name="date_of_birth"
-                        value={isEditable 
-                            ? editedPlayer.date_of_birth?.toString().split("T")[0] 
+                        value={isEditable
+                            ? editedPlayer.date_of_birth?.toString().split("T")[0]
                             : currentPlayer.date_of_birth?.toString().split("T")[0]
                         }
                         onChange={handleChange}

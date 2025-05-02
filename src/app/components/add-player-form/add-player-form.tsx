@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import "./add-player-form.css";
+import toast from "react-hot-toast";
+import { on } from "events";
 
 interface AddPlayerFormProps {
   onClose: () => void;
@@ -9,8 +11,8 @@ interface AddPlayerFormProps {
     country: string;
     racket_brand: string;
     date_of_birth: string;
-    ranking: Number;
-    number_of_titles: Number;
+    ranking: number;
+    number_of_titles: number;
     handedness: string;
     imageUrl: string;
   }) => void;
@@ -25,7 +27,7 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
     date_of_birth: "",
     ranking: 0,
     number_of_titles: 0,
-    handedness: "right-handed",
+    handedness: "right_handed",
     imageUrl: null,
   });
 
@@ -37,17 +39,22 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
       newPlayer.date_of_birth !== "" &&
       newPlayer.ranking > 0 &&
       newPlayer.number_of_titles >= 0 &&
-      ["left-handed", "right-handed"].includes(newPlayer.handedness)
+      ["left_handed", "right_handed"].includes(newPlayer.handedness)
     );
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (!isFormValid()) {
       alert("Please fill out all required fields correctly.");
       return;
     }
-    onAddPlayer({ ...newPlayer, id: Date.now() });
-    onClose();
+    try {
+      onAddPlayer(newPlayer);
+      onClose();
+    } catch (error) {
+      console.error("Error adding player:", error);
+      alert("Error adding player. Check console for details.");
+    }
   };
 
   return (
@@ -63,9 +70,9 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
             <input
               type="radio"
               name="handedness"
-              value="right-handed"
-              checked={newPlayer.handedness === "right-handed"}
-              onChange={() => setNewPlayer({ ...newPlayer, handedness: "right-handed" })}
+              value="right_handed"
+              checked={newPlayer.handedness === "right_handed"}
+              onChange={() => setNewPlayer({ ...newPlayer, handedness: "right_handed" })}
             />
             Right-handed
           </label>
@@ -73,9 +80,9 @@ const AddPlayerForm: React.FC<AddPlayerFormProps> = ({ onClose, onAddPlayer }) =
             <input
               type="radio"
               name="handedness"
-              value="left-handed"
-              checked={newPlayer.handedness === "left-handed"}
-              onChange={() => setNewPlayer({ ...newPlayer, handedness: "left-handed" })}
+              value="left_handed"
+              checked={newPlayer.handedness === "left_handed"}
+              onChange={() => setNewPlayer({ ...newPlayer, handedness: "left_handed" })}
             />
             Left-handed
           </label>

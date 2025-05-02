@@ -23,7 +23,7 @@ model Player {
   number_of_titles Int
   handedness       Handedness
   imageUrl         String
-  racket_brand      String
+  racket_brand     String
   racket           Racket      @relation(fields: [racket_brand], references: [brand_name])
   createdAt        DateTime    @default(now())
 }
