@@ -14,11 +14,17 @@ const MainMenu: React.FC<MainMenuProps> = ({ onAddPlayerClick }) => {
         router.push('/statistics-page');
     };
 
+    const handleTopPlayers = () => {
+        router.push('/top-rackets-page');
+    };
+
+
     return (
         <div className="main-menu">
             <ul className="menu-list">
                 <li className="menu-item" onClick={ onAddPlayerClick }><i className="bi bi-person-add"></i></li>
                 <li className="menu-item" onClick={ handleStatisticsClick }><i className="bi bi-bar-chart-line"></i></li>
+                <li className="menu-item" onClick={ handleTopPlayers }><i className="bi bi-list-ol"></i></li>
             </ul>   
         </div>
     );

@@ -19,6 +19,11 @@ const PlayerCard: React.FC<PlayerCardProps> = ({ player, onDelete, cardLabel }) 
         router.push(`/detail-page/${player.id}`);
     };
 
+    //if player.imageUrl is empty string, set it to a default image
+    if (!player.imageUrl) {
+        player.imageUrl = 'https://via.placeholder.com/150'; // Default image URL
+    }
+
     return (
         <main className='player-card'>
             <div className='player-card__header'>
