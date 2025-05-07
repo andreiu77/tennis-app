@@ -4,7 +4,7 @@ import { validatePlayerData } from "../Validation";
 
 // GET a single player by ID
 export async function GET(req: Request, { params }: { params: { id: string } }) {
-    const id = parseInt(params.id);
+    const id = await parseInt(params.id);
     if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
@@ -69,7 +69,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
 
 // DELETE a player
 export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-    const id = parseInt(params.id);
+    const id = await parseInt(params.id);
     if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }

@@ -8,6 +8,7 @@ async function main() {
   console.log('Deleting existing data...');
   await prisma.player.deleteMany();
   await prisma.racket.deleteMany();
+  await prisma.user.deleteMany();
 
   const racketBrands = [];
 
@@ -27,6 +28,14 @@ async function main() {
   const allRackets = await prisma.racket.findMany({ select: { brand_name: true } });
   const brandNames = allRackets.map((r) => r.brand_name);
 
+  const regularUser = await prisma.user.create({
+    data: {
+      email: 'user@example.com',
+      password: 'hashed-password-user', // Replace with real hash
+      role: 'USER',
+    },
+  });
+
   console.log('Creating 100,000 players...');
   for (let i = 0; i < 100; i++) {
     const players = Array.from({ length: 1000 }).map(() => {
@@ -40,6 +49,7 @@ async function main() {
         handedness: faker.helpers.arrayElement(['left_handed', 'right_handed']),
         imageUrl: faker.image.avatar(),
         racket_brand: brand,
+        userId: regularUser.id,
       };
     });
 

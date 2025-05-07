@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"
 import { validatePlayerData } from "./Validation";
-
+import { getServerSession } from "next-auth";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
 
 // GET all players
 export async function GET(req: Request) {
@@ -10,15 +11,22 @@ export async function GET(req: Request) {
     const sortParam = searchParams.get("sort") || "ranking-asc";
     const sortDirection = sortParam.endsWith("desc") ? "desc" : "asc";
 
+    const session = await getServerSession(authOptions);
+
+    if(!session) {
+        return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
     const players = await prisma.player.findMany({
-        where: query
-            ? {
-                  name: {
-                      contains: query,
-                      mode: "insensitive",
-                  },
-              }
-            : undefined,
+        where: {
+            userId: Number(session?.user.id),
+            ...(query && {
+                name: {
+                    contains: query,
+                    mode: "insensitive",
+                },
+            }),
+        },
         orderBy: {
             ranking: sortDirection,
         },
@@ -49,6 +57,7 @@ export async function POST(req: Request) {
         // );
     }
     // Add player
+    const session = await getServerSession(authOptions);
 
     // check racket brand exists
     const racketBrandExists = await prisma.racket.findUnique({
@@ -62,20 +71,18 @@ export async function POST(req: Request) {
     try {
         const newPlayer = await prisma.player.create({
             data: {
-                name: body.name,
-                country: body.country,
-                date_of_birth: new Date(body.date_of_birth),
-                ranking: body.ranking,
-                number_of_titles: body.number_of_titles,
-                handedness: body.handedness,
-                imageUrl: body.imageUrl || "",
-                racket: {
-                    connect: {
-                        brand_name: body.racket_brand,
-                    }
-                }
+              name: body.name,
+              country: body.country,
+              date_of_birth: new Date(body.date_of_birth),
+              ranking: body.ranking,
+              number_of_titles: body.number_of_titles,
+              handedness: body.handedness,
+              imageUrl: body.imageUrl || "",
+              userId: Number(session.user.id),
+              racket_brand: body.racket_brand,
             },
-        });
+          });
+          
         return NextResponse.json({ message: "Player added", player: newPlayer });
     } catch (err) {
         console.error("Error creating player:", err);

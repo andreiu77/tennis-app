@@ -1,3 +1,5 @@
+"use client";
+import { SessionProvider } from 'next-auth/react';
 import { Toaster } from 'react-hot-toast';
 
 export default function DashboardLayout({
@@ -12,7 +14,7 @@ export default function DashboardLayout({
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css"></link>
       </head>
 
-      <body>        
+      <body>
         <main>
           <Toaster
             position="top-center"
@@ -23,8 +25,10 @@ export default function DashboardLayout({
                 background: '#363636',
                 color: '#fff',
               },
-            }}/>
-          {children}
+            }} />
+          <SessionProvider>
+            {children}
+          </SessionProvider>
         </main>
       </body>
     </html>

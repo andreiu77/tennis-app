@@ -120,6 +120,13 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
   Serializable: 'Serializable'
 });
 
+exports.Prisma.UserScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  password: 'password',
+  role: 'role'
+};
+
 exports.Prisma.PlayerScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -130,7 +137,8 @@ exports.Prisma.PlayerScalarFieldEnum = {
   handedness: 'handedness',
   imageUrl: 'imageUrl',
   racket_brand: 'racket_brand',
-  createdAt: 'createdAt'
+  createdAt: 'createdAt',
+  userId: 'userId'
 };
 
 exports.Prisma.RacketScalarFieldEnum = {
@@ -146,12 +154,23 @@ exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.Role = exports.$Enums.Role = {
+  USER: 'USER',
+  ADMIN: 'ADMIN'
+};
+
 exports.Handedness = exports.$Enums.Handedness = {
   left_handed: 'left_handed',
   right_handed: 'right_handed'
 };
 
 exports.Prisma.ModelName = {
+  User: 'User',
   Player: 'Player',
   Racket: 'Racket'
 };

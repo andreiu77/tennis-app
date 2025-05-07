@@ -1,4 +1,5 @@
-import { PrismaClient, Handedness } from '@/src/generated/prisma';
+// npx prisma db seed
+import { PrismaClient, Role } from '@/src/generated/prisma';
 
 const prisma = new PrismaClient();
 
@@ -6,6 +7,25 @@ async function main() {
   // Clear existing data
   await prisma.player.deleteMany();
   await prisma.racket.deleteMany();
+  await prisma.user.deleteMany();
+
+  // Create users
+  const admin = await prisma.user.create({
+    data: {
+      email: 'admin@example.com',
+      password: 'hashed-password-admin', // Replace with real hash
+      role: 'ADMIN',
+    },
+  });
+
+  const regularUser = await prisma.user.create({
+    data: {
+      email: 'user@example.com',
+      password: 'hashed-password-user', // Replace with real hash
+      role: 'USER',
+    },
+  });
+
   // Create rackets
   await prisma.racket.createMany({
     data: [
@@ -17,7 +37,7 @@ async function main() {
     ],
   });
 
-  // Create players
+  // Create players (owned by regularUser)
   await prisma.player.createMany({
     data: [
       {
@@ -29,6 +49,7 @@ async function main() {
         handedness: 'right_handed',
         imageUrl: '/images/federer.jpeg',
         racket_brand: 'Wilson',
+        userId: regularUser.id,
       },
       {
         name: 'Rafael Nadal',
@@ -39,6 +60,7 @@ async function main() {
         handedness: 'left_handed',
         imageUrl: 'https://example.com/nadal.jpg',
         racket_brand: 'Babolat',
+        userId: regularUser.id,
       },
       {
         name: 'Jannik Sinner',
@@ -49,6 +71,7 @@ async function main() {
         handedness: 'right_handed',
         imageUrl: 'https://example.com/sinner.jpg',
         racket_brand: 'Head',
+        userId: regularUser.id,
       },
       {
         name: 'Stefanos Tsitsipas',
@@ -59,6 +82,7 @@ async function main() {
         handedness: 'right_handed',
         imageUrl: 'https://example.com/tsitsipas.jpg',
         racket_brand: 'Wilson',
+        userId: regularUser.id,
       },
       {
         name: 'Alex de Minaur',
@@ -69,6 +93,7 @@ async function main() {
         handedness: 'right_handed',
         imageUrl: 'https://example.com/deminaur.jpg',
         racket_brand: 'Wilson',
+        userId: regularUser.id,
       },
     ],
   });
