@@ -7,7 +7,10 @@ async function main() {
   // Clear existing data
   await prisma.player.deleteMany();
   await prisma.racket.deleteMany();
+  await prisma.monitoredUser.deleteMany();
+  await prisma.log.deleteMany();
   await prisma.user.deleteMany();
+
 
   // Create users
   const admin = await prisma.user.create({

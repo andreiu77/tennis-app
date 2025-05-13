@@ -9,11 +9,13 @@ datasource db {
 }
 
 model User {
-  id       Int      @id @default(autoincrement())
-  email    String   @unique
-  password String // Hashed password
-  role     Role     @default(USER)
-  players  Player[] // One-to-many: a user can create many players
+  id        Int            @id @default(autoincrement())
+  email     String         @unique
+  password  String // Hashed password
+  role      Role           @default(USER)
+  players   Player[] // One-to-many: a user can create many players
+  logs      Log[] // One-to-many: a user can have many log entries
+  monitored MonitoredUser?
 }
 
 model Player {
@@ -38,6 +40,23 @@ model Racket {
   players    Player[] // One-to-many relation
 }
 
+model Log {
+  id        Int        @id @default(autoincrement())
+  userId    Int
+  action    ActionType
+  createdAt DateTime   @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
+model MonitoredUser {
+  id        Int      @id @default(autoincrement())
+  userId    Int      @unique
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id])
+}
+
 enum Handedness {
   left_handed
   right_handed
@@ -46,4 +65,10 @@ enum Handedness {
 enum Role {
   USER
   ADMIN
+}
+
+enum ActionType {
+  ADD
+  UPDATE
+  DELETE
 }

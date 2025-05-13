@@ -78,10 +78,9 @@ const PlayersList: React.FC<PlayersListProps> = ({ searchQuery = '', sortOrder, 
             const data = await response.json();
             console.log("Player added:", data);
         
-            // After successfully adding the player, fetch the updated list
             const updatedPlayers = await fetchPlayers(searchQuery, sortOrder);
-            setPlayers(updatedPlayers);  // Update the state with the new player list
-            setCurrentPage(0);  // Optionally, reset the page to 1 after adding a player
+            setPlayers(updatedPlayers);
+            setCurrentPage(0);
           } catch (error) {
             console.error("Error adding player:", error);
           }

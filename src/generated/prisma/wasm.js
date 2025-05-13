@@ -145,6 +145,19 @@ exports.Prisma.RacketScalarFieldEnum = {
   brand_name: 'brand_name'
 };
 
+exports.Prisma.LogScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  action: 'action',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.MonitoredUserScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -169,10 +182,18 @@ exports.Handedness = exports.$Enums.Handedness = {
   right_handed: 'right_handed'
 };
 
+exports.ActionType = exports.$Enums.ActionType = {
+  ADD: 'ADD',
+  UPDATE: 'UPDATE',
+  DELETE: 'DELETE'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Player: 'Player',
-  Racket: 'Racket'
+  Racket: 'Racket',
+  Log: 'Log',
+  MonitoredUser: 'MonitoredUser'
 };
 
 /**

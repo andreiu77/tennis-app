@@ -31,8 +31,9 @@
     "next-env.d.ts",
     ".next/types/**/*.ts",
     "**/*.ts",
-    "**/*.tsx"
-, "__tests__/frontend_tests.jsx", "lib/websocket-server.js", "src/app/utils/generateRandomPlayer.js", "src/app/utils/startGenerateRandomPlayers.js", "prisma/huge-seed.cjs"  ],
+    "**/*.tsx",
+    "types"
+, "__tests__/frontend_tests.jsx", "lib/websocket-server.js", "src/app/utils/generateRandomPlayer.js", "src/app/utils/startGenerateRandomPlayers.js", "prisma/huge-seed.cjs", "src/app/utils/monitorUsersThread.js", "lib/monitorThread.ts"  ],
   "exclude": [
     "node_modules"
   ]

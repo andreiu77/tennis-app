@@ -82,6 +82,14 @@ export async function POST(req: Request) {
               racket_brand: body.racket_brand,
             },
           });
+
+        await prisma.log.create({
+            data: {
+                userId: Number(session.user.id),
+                action: "ADD",
+                createdAt: new Date(),
+            },
+        });
           
         return NextResponse.json({ message: "Player added", player: newPlayer });
     } catch (err) {

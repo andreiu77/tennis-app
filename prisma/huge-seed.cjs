@@ -8,6 +8,8 @@ async function main() {
   console.log('Deleting existing data...');
   await prisma.player.deleteMany();
   await prisma.racket.deleteMany();
+  await prisma.log.deleteMany();
+  await prisma.monitoredUser.deleteMany();
   await prisma.user.deleteMany();
 
   const racketBrands = [];

@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { validatePlayerData } from "../Validation";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/route";
 
 // GET a single player by ID
 export async function GET(req: Request, { params }: { params: { id: string } }) {
@@ -28,6 +30,8 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
+    const session = await getServerSession(authOptions);
+
     const existingPlayer = await prisma.player.findUnique({ where: { id } });
     if (!existingPlayer) {
         return NextResponse.json({ error: "Player not found" }, { status: 404 });
@@ -43,7 +47,7 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
     const racketBrandExists = await prisma.racket.findUnique({
         where: { brand_name: body.racket_brand },
     });
-    
+
     if (!racketBrandExists) {
         return NextResponse.json({ error: "Racket brand not found" }, { status: 404 });
     }
@@ -59,8 +63,16 @@ export async function PUT(req: Request, { params }: { params: { id: string } }) 
             handedness: body.handedness,
             imageUrl: body.imageUrl,
             racket_brand: body.racket_brand,
-          },
+        },
         include: { racket: true },
+    });
+
+    await prisma.log.create({
+        data: {
+            userId: Number(session.user.id),
+            action: "UPDATE",
+            createdAt: new Date(),
+        },
     });
 
     return NextResponse.json({ message: "Player updated", player: updatedPlayer });
@@ -74,8 +86,17 @@ export async function DELETE(req: Request, { params }: { params: { id: string } 
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
 
+    const session = await getServerSession(authOptions);
+
     try {
         await prisma.player.delete({ where: { id } });
+        await prisma.log.create({
+            data: {
+                userId: Number(session.user.id),
+                action: "DELETE",
+                createdAt: new Date(),
+            },
+        });
         return NextResponse.json({ message: "Player deleted" });
     } catch (error) {
         return NextResponse.json({ error: "Player not found" }, { status: 404 });
