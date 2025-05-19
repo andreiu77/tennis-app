@@ -2,11 +2,11 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 import { validatePlayerData } from "../Validation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "../../auth/[...nextauth]/route";
+import { authOptions } from "../../auth/[...nextauth]/authOptions";
 
 // GET a single player by ID
-export async function GET(req: Request, { params }: { params: { id: string } }) {
-    const id = await parseInt(params.id);
+export async function GET(req: Request, context: { params: { id: string } }) {
+    const id = parseInt(context.params.id);
     if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
