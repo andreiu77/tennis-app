@@ -24,8 +24,8 @@ export async function GET(req: Request, context: any) {
 }
 
 // UPDATE a player
-export async function PUT(req: Request, { params }: { params: { id: string } }) {
-    const id = await parseInt(params.id);
+export async function PUT(req: Request, context: any) {
+    const id = parseInt(context.params.id);
     if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
