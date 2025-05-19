@@ -48,7 +48,7 @@ export default function MainPage() {
                             <MonitoredUserTable />
                         </div>
                     )}
-                    
+
                 </div>
 
             </div>

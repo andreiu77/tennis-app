@@ -15,7 +15,7 @@ export const POST = async (req, res) => {
   console.log(filename);
   try {
     await writeFile(
-      path.join(process.cwd(), "public/videos/" + filename),
+      "D:/github student stuff/tennis-app/public/images",
       buffer
     );
     const videoUrl = `/videos/${filename}`;
