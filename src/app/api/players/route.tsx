@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma"
 import { validatePlayerData } from "./Validation";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/src/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/src/app/api/auth/[...nextauth]/authOptions";
 
 // GET all players
 export async function GET(req: Request) {
