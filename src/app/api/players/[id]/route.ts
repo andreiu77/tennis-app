@@ -80,8 +80,8 @@ export async function PUT(req: Request, context: any) {
 
 
 // DELETE a player
-export async function DELETE(req: Request, { params }: { params: { id: string } }) {
-    const id = await parseInt(params.id);
+export async function DELETE(req: Request, context: any) {
+    const id = parseInt(context.params.id);
     if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
     }
