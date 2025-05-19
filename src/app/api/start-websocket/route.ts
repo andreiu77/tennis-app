@@ -2,10 +2,11 @@
 
 import { WebSocketServer } from "ws";
 import { startRandomPlayerGenerator, stopRandomPlayerGenerator } from "../../utils/startGenerateRandomPlayers";
+import { NextResponse } from "next/server";
 
 let wss;
 
-export async function POST(req: Request, res: Response) {
+export async function POST(req: Request, res: NextResponse) {
   if (!wss) {
     wss = new WebSocketServer({ port: 3001 });
 
