@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "../../auth/[...nextauth]/authOptions";
 
 // GET a single player by ID
-export async function GET(req: Request, context: { params: { id: string } }) {
+export async function GET(req: Request, context: { params: { id: any; } }) {
     const id = parseInt(context.params.id);
     if (isNaN(id)) {
         return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
