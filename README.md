@@ -194,10 +194,10 @@ npx prisma db seed
 
 **Seeded accounts:**
 
-| Email               | Role    | 2FA Enabled |
-| ------------------- | ------- | ----------- |
-| `admin@example.com` | `ADMIN` | No          |
-| `user@example.com`  | `USER`  | Yes         |
+| Email               | Password            | Role    | 2FA Enabled |
+| ------------------- | ------------------- | ------- | ----------- |
+| `admin@example.com` | `hashed-password-admin` | `ADMIN` | No          |
+| `user@example.com`  | `hashed-password-user`  | `USER`  | Yes         |
 
 > ⚠️ The seed script uses placeholder password hashes. Replace them with real bcrypt hashes for production use.
 
@@ -268,6 +268,7 @@ npm run test:watch
 - Enter email and password to authenticate.
 - If the account has **2FA enabled**, the user is prompted for a TOTP code.
 - Option to display a **QR code** for setting up Google Authenticator.
+- Register functionality not implemented yet.
 
 ### 🏠 Main Page (`/`)
 

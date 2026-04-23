@@ -29,8 +29,7 @@ async function main() {
       email: 'user@example.com',
       password: 'hashed-password-user', // Replace with real hash
       role: 'USER',
-      twoFactorEnabled: true,
-      twoFactorSecret: FA_SECRET,
+      twoFactorEnabled: false,
     },
   });
 
