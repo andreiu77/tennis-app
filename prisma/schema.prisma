@@ -11,8 +11,10 @@ datasource db {
 model User {
   id       Int      @id @default(autoincrement())
   email    String   @unique
-  password String   // Hashed password
+  password String
   role     Role     @default(USER)
+  twoFactorEnabled Boolean @default(false)
+  twoFactorSecret String?
   players  Player[] // One-to-many: a user can create many players
   logs     Log[]    // One-to-many: a user can have many log entries
   monitored  MonitoredUser?

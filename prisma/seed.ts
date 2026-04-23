@@ -1,5 +1,6 @@
 // npx prisma db seed
 import { PrismaClient, Role } from '@/src/generated/prisma';
+import { totp, authenticator } from 'otplib';
 
 const prisma = new PrismaClient();
 
@@ -11,6 +12,7 @@ async function main() {
   await prisma.log.deleteMany();
   await prisma.user.deleteMany();
 
+  const FA_SECRET = authenticator.generateSecret();
 
   // Create users
   const admin = await prisma.user.create({
@@ -18,6 +20,7 @@ async function main() {
       email: 'admin@example.com',
       password: 'hashed-password-admin', // Replace with real hash
       role: 'ADMIN',
+      twoFactorEnabled: false
     },
   });
 
@@ -26,6 +29,8 @@ async function main() {
       email: 'user@example.com',
       password: 'hashed-password-user', // Replace with real hash
       role: 'USER',
+      twoFactorEnabled: true,
+      twoFactorSecret: FA_SECRET,
     },
   });
 

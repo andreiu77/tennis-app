@@ -313,8 +313,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.7.0
-   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
+   * Prisma Client JS version: 6.8.2
+   * Query Engine version: 2060c79ba17c6bb9f5823312b6f6b7f4a845738e
    */
   export type PrismaVersion = {
     client: string
@@ -1370,6 +1370,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.Role | null
+    twoFactorEnabled: boolean | null
+    twoFactorSecret: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -1377,6 +1379,8 @@ export namespace Prisma {
     email: string | null
     password: string | null
     role: $Enums.Role | null
+    twoFactorEnabled: boolean | null
+    twoFactorSecret: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -1384,6 +1388,8 @@ export namespace Prisma {
     email: number
     password: number
     role: number
+    twoFactorEnabled: number
+    twoFactorSecret: number
     _all: number
   }
 
@@ -1401,6 +1407,8 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    twoFactorEnabled?: true
+    twoFactorSecret?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -1408,6 +1416,8 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    twoFactorEnabled?: true
+    twoFactorSecret?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -1415,6 +1425,8 @@ export namespace Prisma {
     email?: true
     password?: true
     role?: true
+    twoFactorEnabled?: true
+    twoFactorSecret?: true
     _all?: true
   }
 
@@ -1509,6 +1521,8 @@ export namespace Prisma {
     email: string
     password: string
     role: $Enums.Role
+    twoFactorEnabled: boolean
+    twoFactorSecret: string | null
     _count: UserCountAggregateOutputType | null
     _avg: UserAvgAggregateOutputType | null
     _sum: UserSumAggregateOutputType | null
@@ -1535,6 +1549,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: boolean
     players?: boolean | User$playersArgs<ExtArgs>
     logs?: boolean | User$logsArgs<ExtArgs>
     monitored?: boolean | User$monitoredArgs<ExtArgs>
@@ -1546,6 +1562,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1553,6 +1571,8 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1560,9 +1580,11 @@ export namespace Prisma {
     email?: boolean
     password?: boolean
     role?: boolean
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "email" | "password" | "role" | "twoFactorEnabled" | "twoFactorSecret", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     players?: boolean | User$playersArgs<ExtArgs>
     logs?: boolean | User$logsArgs<ExtArgs>
@@ -1584,6 +1606,8 @@ export namespace Prisma {
       email: string
       password: string
       role: $Enums.Role
+      twoFactorEnabled: boolean
+      twoFactorSecret: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -2014,6 +2038,8 @@ export namespace Prisma {
     readonly email: FieldRef<"User", 'String'>
     readonly password: FieldRef<"User", 'String'>
     readonly role: FieldRef<"User", 'Role'>
+    readonly twoFactorEnabled: FieldRef<"User", 'Boolean'>
+    readonly twoFactorSecret: FieldRef<"User", 'String'>
   }
     
 
@@ -6885,7 +6911,9 @@ export namespace Prisma {
     id: 'id',
     email: 'email',
     password: 'password',
-    role: 'role'
+    role: 'role',
+    twoFactorEnabled: 'twoFactorEnabled',
+    twoFactorSecret: 'twoFactorSecret'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -7006,6 +7034,13 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
    * Reference to a field of type 'DateTime'
    */
   export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
@@ -7072,6 +7107,8 @@ export namespace Prisma {
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    twoFactorEnabled?: BoolFilter<"User"> | boolean
+    twoFactorSecret?: StringNullableFilter<"User"> | string | null
     players?: PlayerListRelationFilter
     logs?: LogListRelationFilter
     monitored?: XOR<MonitoredUserNullableScalarRelationFilter, MonitoredUserWhereInput> | null
@@ -7082,6 +7119,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    twoFactorEnabled?: SortOrder
+    twoFactorSecret?: SortOrderInput | SortOrder
     players?: PlayerOrderByRelationAggregateInput
     logs?: LogOrderByRelationAggregateInput
     monitored?: MonitoredUserOrderByWithRelationInput
@@ -7095,6 +7134,8 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     password?: StringFilter<"User"> | string
     role?: EnumRoleFilter<"User"> | $Enums.Role
+    twoFactorEnabled?: BoolFilter<"User"> | boolean
+    twoFactorSecret?: StringNullableFilter<"User"> | string | null
     players?: PlayerListRelationFilter
     logs?: LogListRelationFilter
     monitored?: XOR<MonitoredUserNullableScalarRelationFilter, MonitoredUserWhereInput> | null
@@ -7105,6 +7146,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    twoFactorEnabled?: SortOrder
+    twoFactorSecret?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _avg?: UserAvgOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
@@ -7120,6 +7163,8 @@ export namespace Prisma {
     email?: StringWithAggregatesFilter<"User"> | string
     password?: StringWithAggregatesFilter<"User"> | string
     role?: EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
+    twoFactorEnabled?: BoolWithAggregatesFilter<"User"> | boolean
+    twoFactorSecret?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type PlayerWhereInput = {
@@ -7350,6 +7395,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     players?: PlayerCreateNestedManyWithoutUserInput
     logs?: LogCreateNestedManyWithoutUserInput
     monitored?: MonitoredUserCreateNestedOneWithoutUserInput
@@ -7360,6 +7407,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     players?: PlayerUncheckedCreateNestedManyWithoutUserInput
     logs?: LogUncheckedCreateNestedManyWithoutUserInput
     monitored?: MonitoredUserUncheckedCreateNestedOneWithoutUserInput
@@ -7369,6 +7418,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     players?: PlayerUpdateManyWithoutUserNestedInput
     logs?: LogUpdateManyWithoutUserNestedInput
     monitored?: MonitoredUserUpdateOneWithoutUserNestedInput
@@ -7379,6 +7430,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     players?: PlayerUncheckedUpdateManyWithoutUserNestedInput
     logs?: LogUncheckedUpdateManyWithoutUserNestedInput
     monitored?: MonitoredUserUncheckedUpdateOneWithoutUserNestedInput
@@ -7389,12 +7442,16 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -7402,6 +7459,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type PlayerCreateInput = {
@@ -7645,6 +7704,26 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type PlayerListRelationFilter = {
     every?: PlayerWhereInput
     some?: PlayerWhereInput
@@ -7662,6 +7741,11 @@ export namespace Prisma {
     isNot?: MonitoredUserWhereInput | null
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type PlayerOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -7675,6 +7759,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    twoFactorEnabled?: SortOrder
+    twoFactorSecret?: SortOrder
   }
 
   export type UserAvgOrderByAggregateInput = {
@@ -7686,6 +7772,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    twoFactorEnabled?: SortOrder
+    twoFactorSecret?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -7693,6 +7781,8 @@ export namespace Prisma {
     email?: SortOrder
     password?: SortOrder
     role?: SortOrder
+    twoFactorEnabled?: SortOrder
+    twoFactorSecret?: SortOrder
   }
 
   export type UserSumOrderByAggregateInput = {
@@ -7743,6 +7833,32 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    mode?: QueryMode
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
   export type DateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -7780,11 +7896,6 @@ export namespace Prisma {
   export type UserNullableScalarRelationFilter = {
     is?: UserWhereInput | null
     isNot?: UserWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
   }
 
   export type PlayerCountOrderByAggregateInput = {
@@ -8024,6 +8135,14 @@ export namespace Prisma {
     set?: $Enums.Role
   }
 
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
+  }
+
+  export type NullableStringFieldUpdateOperationsInput = {
+    set?: string | null
+  }
+
   export type PlayerUpdateManyWithoutUserNestedInput = {
     create?: XOR<PlayerCreateWithoutUserInput, PlayerUncheckedCreateWithoutUserInput> | PlayerCreateWithoutUserInput[] | PlayerUncheckedCreateWithoutUserInput[]
     connectOrCreate?: PlayerCreateOrConnectWithoutUserInput | PlayerCreateOrConnectWithoutUserInput[]
@@ -8260,6 +8379,25 @@ export namespace Prisma {
     not?: NestedEnumRoleFilter<$PrismaModel> | $Enums.Role
   }
 
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
+  }
+
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -8314,6 +8452,42 @@ export namespace Prisma {
     _max?: NestedEnumRoleFilter<$PrismaModel>
   }
 
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
   export type NestedDateTimeFilter<$PrismaModel = never> = {
     equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
@@ -8330,17 +8504,6 @@ export namespace Prisma {
     in?: $Enums.Handedness[] | ListEnumHandednessFieldRefInput<$PrismaModel>
     notIn?: $Enums.Handedness[] | ListEnumHandednessFieldRefInput<$PrismaModel>
     not?: NestedEnumHandednessFilter<$PrismaModel> | $Enums.Handedness
-  }
-
-  export type NestedIntNullableFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel> | null
-    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
   export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
@@ -8577,6 +8740,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     logs?: LogCreateNestedManyWithoutUserInput
     monitored?: MonitoredUserCreateNestedOneWithoutUserInput
   }
@@ -8586,6 +8751,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     logs?: LogUncheckedCreateNestedManyWithoutUserInput
     monitored?: MonitoredUserUncheckedCreateNestedOneWithoutUserInput
   }
@@ -8629,6 +8796,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     logs?: LogUpdateManyWithoutUserNestedInput
     monitored?: MonitoredUserUpdateOneWithoutUserNestedInput
   }
@@ -8638,6 +8807,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     logs?: LogUncheckedUpdateManyWithoutUserNestedInput
     monitored?: MonitoredUserUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -8697,6 +8868,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     players?: PlayerCreateNestedManyWithoutUserInput
     monitored?: MonitoredUserCreateNestedOneWithoutUserInput
   }
@@ -8706,6 +8879,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     players?: PlayerUncheckedCreateNestedManyWithoutUserInput
     monitored?: MonitoredUserUncheckedCreateNestedOneWithoutUserInput
   }
@@ -8730,6 +8905,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     players?: PlayerUpdateManyWithoutUserNestedInput
     monitored?: MonitoredUserUpdateOneWithoutUserNestedInput
   }
@@ -8739,6 +8916,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     players?: PlayerUncheckedUpdateManyWithoutUserNestedInput
     monitored?: MonitoredUserUncheckedUpdateOneWithoutUserNestedInput
   }
@@ -8747,6 +8926,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     players?: PlayerCreateNestedManyWithoutUserInput
     logs?: LogCreateNestedManyWithoutUserInput
   }
@@ -8756,6 +8937,8 @@ export namespace Prisma {
     email: string
     password: string
     role?: $Enums.Role
+    twoFactorEnabled?: boolean
+    twoFactorSecret?: string | null
     players?: PlayerUncheckedCreateNestedManyWithoutUserInput
     logs?: LogUncheckedCreateNestedManyWithoutUserInput
   }
@@ -8780,6 +8963,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     players?: PlayerUpdateManyWithoutUserNestedInput
     logs?: LogUpdateManyWithoutUserNestedInput
   }
@@ -8789,6 +8974,8 @@ export namespace Prisma {
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
     role?: EnumRoleFieldUpdateOperationsInput | $Enums.Role
+    twoFactorEnabled?: BoolFieldUpdateOperationsInput | boolean
+    twoFactorSecret?: NullableStringFieldUpdateOperationsInput | string | null
     players?: PlayerUncheckedUpdateManyWithoutUserNestedInput
     logs?: LogUncheckedUpdateManyWithoutUserNestedInput
   }
